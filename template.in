@@ -1,0 +1,53 @@
+# Template file for '%PKG_NAME%'
+pkgname=%PKG_NAME%
+version=%FLASH_VERSION%
+_chromeVersion=%CHROME_VERSION%
+_channel='%CHANNEL%'
+_baseUrl='%BASE_URL%'
+revision=%REVISION%
+short_desc="Pepper Flash plugin for Chromium"
+maintainer="Enno Boland <eb@s01.de>"
+homepage="http://www.google.com/chrome"
+license="chrome"
+lib32disabled=yes
+nonfree=yes
+only_for_archs="i686 x86_64"
+depends="chromium binutils"
+create_wrksrc=yes
+
+case "${XBPS_TARGET_MACHINE}" in
+x86_64)
+	_filename=google-chrome-${_channel}_${_chromeVersion}_amd64.deb
+	_chromeChecksum+=" %CHECKSUM_X64%"
+	;;
+i686)
+	_filename=google-chrome-${_channel}_${_chromeVersion}_i386.deb
+	_chromeChecksum+=" %CHECKSUM_I686%"
+	;;
+esac
+_chromeUrl="${_baseUrl}/${_filename}"
+distfiles="http://www.google.com/chrome/intl/en/eula_text.html>license.html ${_chromeUrl}"
+checksum="8dd9b0034b69d523eab459ee3b00379421e4e41b780014b0345aba5697a86bc4
+	$_chromeChecksum"
+
+skip_extraction="license.html $_filename"
+
+do_build() {
+	sed \
+		-e "s|%VERSION%|${version}|" \
+			${FILESDIR}/chromium-pepper-flash.sh.in > chromium-pepper-flash.sh
+	sed \
+		-e "s|%CHROME_URL%|${_chromeUrl}|" \
+		-e "s|%CHROME_CHECKSUM%|${_chromeChecksum}|" \
+			${FILESDIR}/chromium-pepper-vars.sh.in > chromium-pepper-vars.sh
+}
+
+do_install() {
+	vmkdir "usr/lib/chromium-pepper-flash"
+	vcopy chromium-pepper-vars.sh "usr/lib/chromium-pepper-flash"
+
+	vinstall "${XBPS_SRCDISTDIR}/$pkgname-$version/license.html" 644 "usr/share/licenses/chromium-pepper-flash"
+
+	vmkdir "etc/profile.d"
+	vinstall "chromium-pepper-flash.sh" 644 "etc/profile.d"
+}
