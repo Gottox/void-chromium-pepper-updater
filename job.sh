@@ -6,8 +6,8 @@ WORKDIR=~/work
 CHANNEL=stable
 CHROME_REPOSITORY=http://dl.google.com/linux/chrome/deb
 CHROME_PACKAGE=google-chrome-$CHANNEL
-XBPS_PACKAGE_PULL=https://github.com/voidlinux/xbps-packages.git
-XBPS_PACKAGE_PUSH=git@github.com:Gottox/xbps-packages.git
+XBPS_PACKAGE_PULL=git@github.com:voidlinux/xbps-packages.git
+XBPS_PACKAGE_PUSH=git@github.com:voidlinux/xbps-packages.git
 PKG_NAME=chromium-pepper-flash
 
 die() {
@@ -54,7 +54,11 @@ download() {
 
 #### INIT
 
-FILESDIR=$(dirname $0)
+for i in git apt-get apt-cache ar lzma; do
+	type $i || die "tool $i not found"
+done
+
+FILESDIR=$(dirname $0 | xargs readlink -f)
 mkdir -p $WORKDIR
 cd $WORKDIR
 
@@ -129,10 +133,8 @@ sed \
 
 (
 	cd xbps-packages;
-	git stash
-	git pull
-	git stash pop
 	git add .
 	git commit -m "$reason"
-	git push $XBPS_PACKAGE_PUSH
+	git pull --rebase $XBPS_PACKAGE_PULL master
+	git push $XBPS_PACKAGE_PUSH master
 )
