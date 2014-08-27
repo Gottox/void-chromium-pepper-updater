@@ -54,7 +54,7 @@ download() {
 
 #### INIT
 
-for i in git apt-get apt-cache ar lzma; do
+for i in git apt-get apt-cache ar lzma wget; do
 	type $i || die "tool $i not found"
 done
 
