@@ -67,7 +67,7 @@ echo deb ${CHROME_REPOSITORY} $CHANNEL main > /etc/apt/sources.list.d/chrome.lis
 apt-key add $FILESDIR/chrome.key
 
 # Updating repository 
-apt-get update
+apt-get update -o Dir::Etc::sourcelist="sources.list.d/chrome.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
 
 # Init xbps-packages if not presend
 if [ -d xbps-packages ]; then
