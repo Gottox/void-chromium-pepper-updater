@@ -89,8 +89,8 @@ fi
 
 # Download the debs
 
-download amd64
-download i386
+download amd64 || die "Cannot download amd64 package"
+download i386 || die "Cannot download i383 package"
 
 # Building Checksums
 checksum_x64=`sha256sum amd64.deb | cut -d" " -f1`
