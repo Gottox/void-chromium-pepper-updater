@@ -12,7 +12,7 @@ license="chrome"
 lib32disabled=yes
 repository=nonfree
 only_for_archs="i686 x86_64"
-depends="chromium binutils"
+depends="chromium binutils xz"
 create_wrksrc=yes
 
 case "${XBPS_TARGET_MACHINE}" in
