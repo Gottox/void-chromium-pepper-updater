@@ -10,8 +10,11 @@ XBPS_PACKAGE_PULL=git@github.com:voidlinux/xbps-packages.git
 XBPS_PACKAGE_PUSH=git@github.com:voidlinux/xbps-packages.git
 PKG_NAME=chromium-pepper-flash
 
+[ -e $WORKDIR/broken ] && die "broken"
+
 die() {
 	echo Error: $@
+	touch $WORKDIR/broken
 	exit 1;
 }
 
@@ -99,10 +102,15 @@ checksum_i686=`sha256sum i386.deb | cut -d" " -f1`
 # extracting deb
 
 mkdir -p data
-ar p "i386.deb" data.tar.lzma | lzma -d | tar x -C data
+ar p "i386.deb" data.tar.xz | lzma -d | tar x -C data
+
+[ $? != 0 ] && die "Extraction of data failed"
 
 flashVersion=`cat data/opt/google/chrome/PepperFlash/manifest.json | grep '"version"' | sed 's/.*: "//;s/",.*//'`
 templateFlashVersion=`templateinfo ${PKG_NAME} version`
+
+[ $? != 0 ] && die "Manifest.json extraction failed"
+[ "$flashVersion" ] || die "Flash Version empty"
 
 rm -r data i386.deb amd64.deb
 
