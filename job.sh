@@ -84,7 +84,7 @@ fi
 
 chromeVersion=`debinfo ${CHROME_PACKAGE} Version`
 templateChromeVersion=`templateinfo ${PKG_NAME} _chromeVersion`
-templateChromeRevision=`templateinfo ${PKG_NAME} _chromeReversion`
+templateChromeRevision=`templateinfo ${PKG_NAME} _chromeRevision`
 chromeRevision=${chromeVersion##*-}
 chromeVersion=${chromeVersion%-*}
 
