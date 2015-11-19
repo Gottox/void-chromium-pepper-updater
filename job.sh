@@ -84,9 +84,13 @@ fi
 
 chromeVersion=`debinfo ${CHROME_PACKAGE} Version`
 templateChromeVersion=`templateinfo ${PKG_NAME} _chromeVersion`
+templateChromeRevision=`templateinfo ${PKG_NAME} _chromeReversion`
+chromeRevision=${chromeVersion##*-}
+chromeVersion=${chromeVersion%-*}
 
-if [ "$chromeVersion" = "$templateChromeVersion" ]; then
-	echo template is up to date $chromeVersion $templateChromeVersion
+
+if [ "$chromeVersion" = "$templateChromeVersion" ] && [ "$chromeRevision" = "$templateChromeRevision" ] ; then
+	echo template is up to date $chromeVersion-$chromeRevision $templateChromeVersion-$templateChromeRevision
 	exit 0
 fi
 
