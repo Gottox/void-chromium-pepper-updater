@@ -134,6 +134,7 @@ sed \
 	-e "s|%FLASH_VERSION%|$flashVersion|g" \
 	-e "s|%FLASH_VERSION%|$flashVersion|g" \
 	-e "s|%CHROME_VERSION%|$chromeVersion|g" \
+	-e "s|%CHROME_REVISION%|$chromeRevision|g" \
 	-e "s|%CHANNEL%|$CHANNEL|g" \
 	-e "s|%BASE_URL%|$baseUri|g" \
 	-e "s|%CHECKSUM_X64%|$checksum_x64|g" \
