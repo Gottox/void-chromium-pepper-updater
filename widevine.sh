@@ -107,8 +107,8 @@ checksum_i686=`sha256sum i386.deb | cut -d" " -f1`
 baseUri=`uri | xargs dirname`
 sed \
 	-e "s|%PKG_NAME%|$PKG_NAME|g" \
-	-e "s|%ChromeVersion%|$chromeVersion|g" \
-	-e "s|%ChromeVersion%|$chromeVersion|g" \
+	-e "s|%CHROMEVERSION%|$chromeVersion|g" \
+	-e "s|%CHROMEVERSION%|$chromeVersion|g" \
 	-e "s|%CHROME_VERSION%|$chromeVersion|g" \
 	-e "s|%CHROME_REVISION%|$chromeRevision|g" \
 	-e "s|%CHANNEL%|$CHANNEL|g" \
