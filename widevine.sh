@@ -8,7 +8,7 @@ CHROME_REPOSITORY=http://dl.google.com/linux/chrome/deb
 CHROME_PACKAGE=google-chrome-$CHANNEL
 XBPS_PACKAGE_PULL=git@github.com:voidlinux/xbps-packages.git
 XBPS_PACKAGE_PUSH=git@github.com:voidlinux/xbps-packages.git
-PKG_NAME=chromium-pepper-flash
+PKG_NAME=chromium-widevine
 
 
 die() {
@@ -103,36 +103,12 @@ download i386 || die "Cannot download i383 package"
 checksum_x64=`sha256sum amd64.deb | cut -d" " -f1`
 checksum_i686=`sha256sum i386.deb | cut -d" " -f1`
 
-# extracting deb
-
-mkdir -p data
-ar p "i386.deb" data.tar.xz | xz -d | tar x -C data
-
-[ $? != 0 ] && die "Extraction of data failed"
-
-flashVersion=`cat data/opt/google/chrome/PepperFlash/manifest.json | grep '"version"' | sed 's/.*: "//;s/",.*//'`
-templateFlashVersion=`templateinfo ${PKG_NAME} version`
-
-[ $? != 0 ] && die "Manifest.json extraction failed"
-[ "$flashVersion" ] || die "Flash Version empty"
-
-rm -r data i386.deb amd64.deb
-
-revision=`templateinfo ${PKG_NAME} revision`
-
-if [ "$flashVersion" = "$templateFlashVersion" ]; then
-	let revision=$revision+1
-	reason="$PKG_NAME: new chrome version $chromeVersion (bot)"
-else
-	revision=1
-	reason="$PKG_NAME: update to $flashVersion (bot)"
-fi
-
+#Inserting versions into template
 baseUri=`uri | xargs dirname`
 sed \
 	-e "s|%PKG_NAME%|$PKG_NAME|g" \
-	-e "s|%FLASH_VERSION%|$flashVersion|g" \
-	-e "s|%FLASH_VERSION%|$flashVersion|g" \
+	-e "s|%ChromeVersion%|$chromeVersion|g" \
+	-e "s|%ChromeVersion%|$chromeVersion|g" \
 	-e "s|%CHROME_VERSION%|$chromeVersion|g" \
 	-e "s|%CHROME_REVISION%|$chromeRevision|g" \
 	-e "s|%CHANNEL%|$CHANNEL|g" \
