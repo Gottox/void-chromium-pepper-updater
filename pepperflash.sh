@@ -141,7 +141,7 @@ sed \
 	-e "s|%CHECKSUM_I686%|$checksum_i686|g" \
 	-e "s|%BASE_URL%|$baseUri|g" \
 	-e "s|%REVISION%|$revision|g" \
-	$FILESDIR/template.in \
+	$FILESDIR/template-pepperflash.in \
 	> xbps-packages/srcpkgs/$PKG_NAME/template
 
 (
