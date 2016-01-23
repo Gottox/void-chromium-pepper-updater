@@ -5,10 +5,9 @@ _channel="%CHANNEL%"
 _baseUrl="%BASE_URL%"
 
 pkgname="%PKG_NAME%"
-reverts="46.0.2490.80_1 46.0.2490.80_2 46.0.2490.80_3"
 version=%CHROMEVERSION%
 revision=%REVISION%
-short_desc="Pepper Flash plugin for Chromium"
+short_desc="A browser plugin designed for the viewing of premium video content"
 maintainer="Enno Boland <eb@s01.de>"
 homepage="http://www.google.com/chrome"
 license="chrome"
@@ -35,14 +34,10 @@ do_extract() {
 	:
 }
 do_install() {
-	sed -e "s|%VERSION%|${version}|" \
-		${FILESDIR}/chromium-pepper-flash.sh.in > chromium-pepper-flash.sh
 	sed \
-		-e "s|%VERSION%|${version}|" \
 		-e "s|%CHROME_URL%|${_chromeUrl}|" \
 		-e "s|%CHROME_CHECKSUM%|${_chromeChecksum}|" \
-		${FILESDIR}/chromium-pepper-vars.sh.in > chromium-pepper-vars.sh
-	vinstall chromium-pepper-vars.sh 644 usr/lib/$pkgname
-	vinstall chromium-pepper-flash.sh 644 etc/profile.d
+			${FILESDIR}/chromium-widevine-vars.sh.in > chromium-widevine-vars.sh
+	vinstall chromium-widevine-vars.sh 644 usr/lib/$pkgname
 	vlicense ${FILESDIR}/LICENSE
 }
