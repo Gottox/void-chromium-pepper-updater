@@ -10,23 +10,14 @@ version=%FLASH_VERSION%
 revision=%REVISION%
 short_desc="Pepper Flash plugin for Chromium"
 maintainer="Enno Boland <eb@s01.de>"
-homepage="http://www.google.com/chrome"
+homepage="https://www.google.com/chrome"
 license="chrome"
-only_for_archs="i686 x86_64"
+only_for_archs="x86_64"
 depends="chromium binutils xz"
 repository=nonfree
 create_wrksrc=yes
-
-case "${XBPS_TARGET_MACHINE}" in
-x86_64)
-	_filename=google-chrome-${_channel}_${_chromeVersion}-${_chromeRevision}_amd64.deb
-	_chromeChecksum="%CHECKSUM_X64%"
-	;;
-i686)
-	_filename=google-chrome-${_channel}_${_chromeVersion}-${_chromeRevision}_i386.deb
-	_chromeChecksum="%CHECKSUM_I686%"
-	;;
-esac
+_filename=google-chrome-${_channel}_${_chromeVersion}-${_chromeRevision}_amd64.deb
+_chromeChecksum="%CHECKSUM_X64%"
 _chromeUrl="${_baseUrl}/${_filename}"
 distfiles="${_chromeUrl}"
 checksum="$_chromeChecksum"
